@@ -1,0 +1,681 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "If you're on localhost, you have to run gateway on the same machine.",
+        "title": "TwelveLabs API",
+        "contact": {},
+        "version": "1.1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/v1.1",
+    "paths": {
+        "/classify": {
+            "post": {
+                "security": [
+                    {
+                        "API_KEY": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Classify"
+                ],
+                "summary": "Create classify",
+                "parameters": [
+                    {
+                        "description": "Classify body parameters",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schema.CreateClassifyRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.ClassifyResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/httpError.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/classify/bulk": {
+            "post": {
+                "security": [
+                    {
+                        "API_KEY": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Classify"
+                ],
+                "summary": "Create classify bulk",
+                "parameters": [
+                    {
+                        "description": "Classify bulk body parameters",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schema.CreateClassifyBulkRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.ClassifyBulkResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/httpError.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/classify/{page_token}": {
+            "get": {
+                "security": [
+                    {
+                        "API_KEY": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Classify"
+                ],
+                "summary": "Create classify bulk page",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Page token from previous classify bulk result",
+                        "name": "page_token",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.ClassifyBulkResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/httpError.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/search": {
+            "post": {
+                "security": [
+                    {
+                        "API_KEY": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Search"
+                ],
+                "summary": "Create search",
+                "parameters": [
+                    {
+                        "description": "Search body parameters",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schema.SearchParams"
+                        }
+                    },
+                    {
+                        "description": "Search query interface",
+                        "name": "query",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/schema.SearchQuery"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.SearchResult"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/httpError.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/search/{page_token}": {
+            "get": {
+                "security": [
+                    {
+                        "API_KEY": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Search"
+                ],
+                "summary": "Get search page",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Page token from previous search result",
+                        "name": "page_token",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.SearchResult"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/httpError.Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/httpError.Error"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "httpError.Error": {
+            "type": "object",
+            "required": [
+                "message"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "docs_url": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.ClassifyBulkResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.ClassifyResponse"
+                    }
+                },
+                "page_info": {
+                    "$ref": "#/definitions/schema.ClassifyPageInfo"
+                }
+            }
+        },
+        "schema.ClassifyLabel": {
+            "type": "object",
+            "required": [
+                "name",
+                "prompts"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "car"
+                },
+                "prompts": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "truck",
+                        "sedan",
+                        "suv",
+                        "convertible"
+                    ]
+                }
+            }
+        },
+        "schema.ClassifyLabelResult": {
+            "type": "object",
+            "properties": {
+                "confidence": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "number"
+                },
+                "matches": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.ClassifyModuleMatch"
+                    }
+                },
+                "name": {
+                    "type": "string"
+                },
+                "score": {
+                    "type": "number"
+                }
+            }
+        },
+        "schema.ClassifyModuleMatch": {
+            "type": "object",
+            "properties": {
+                "end": {
+                    "type": "number"
+                },
+                "option": {
+                    "type": "string"
+                },
+                "prompt": {
+                    "type": "string"
+                },
+                "segment_confidence": {
+                    "type": "string"
+                },
+                "segment_score": {
+                    "type": "number"
+                },
+                "start": {
+                    "type": "number"
+                },
+                "thumbnail_url": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.ClassifyPageInfo": {
+            "type": "object",
+            "properties": {
+                "expired_at": {
+                    "type": "string"
+                },
+                "limit": {
+                    "type": "integer"
+                },
+                "next_token": {
+                    "type": "string"
+                },
+                "prev_token": {
+                    "type": "string"
+                },
+                "total_count": {
+                    "type": "integer"
+                }
+            }
+        },
+        "schema.ClassifyResponse": {
+            "type": "object",
+            "properties": {
+                "labels": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.ClassifyLabelResult"
+                    }
+                },
+                "video_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.CreateClassifyBulkRequest": {
+            "type": "object",
+            "required": [
+                "index_id",
+                "labels",
+                "options"
+            ],
+            "properties": {
+                "conversation_option": {
+                    "type": "string",
+                    "default": "semantic",
+                    "enum": [
+                        "semantic",
+                        "transcription"
+                    ]
+                },
+                "include_matches": {
+                    "description": "If true, the response includes detailed information about matches",
+                    "type": "boolean",
+                    "default": false
+                },
+                "index_id": {
+                    "type": "string"
+                },
+                "labels": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "$ref": "#/definitions/schema.ClassifyLabel"
+                    }
+                },
+                "options": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "conversation",
+                            "text_in_video",
+                            "visual"
+                        ]
+                    }
+                },
+                "page_limit": {
+                    "type": "integer",
+                    "default": 10,
+                    "maximum": 50,
+                    "minimum": 1
+                },
+                "threshold": {
+                    "type": "string",
+                    "default": "low",
+                    "enum": [
+                        "high",
+                        "medium",
+                        "low",
+                        "none"
+                    ]
+                },
+                "video_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "schema.CreateClassifyRequest": {
+            "type": "object",
+            "required": [
+                "labels",
+                "options",
+                "video_id"
+            ],
+            "properties": {
+                "conversation_option": {
+                    "type": "string",
+                    "default": "semantic",
+                    "enum": [
+                        "semantic",
+                        "transcription"
+                    ]
+                },
+                "include_matches": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "labels": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "$ref": "#/definitions/schema.ClassifyLabel"
+                    }
+                },
+                "options": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "visual",
+                            "conversation",
+                            "text_in_video"
+                        ]
+                    }
+                },
+                "threshold": {
+                    "type": "string",
+                    "default": "low",
+                    "enum": [
+                        "high",
+                        "medium",
+                        "low",
+                        "none"
+                    ]
+                },
+                "video_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.SearchPageInfo": {
+            "type": "object",
+            "properties": {
+                "limit_per_page": {
+                    "type": "integer"
+                },
+                "next_page_token": {
+                    "type": "string"
+                },
+                "page_expired_at": {
+                    "type": "string"
+                },
+                "prev_page_token": {
+                    "type": "string"
+                },
+                "total_inner_matches": {
+                    "type": "integer"
+                },
+                "total_results": {
+                    "type": "integer"
+                }
+            }
+        },
+        "schema.SearchParams": {
+            "type": "object",
+            "required": [
+                "index_id",
+                "query"
+            ],
+            "properties": {
+                "filter": {
+                    "description": "Filter videos inside the index by metadata\n- Custom metadata can be used as a filter, too",
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "example": {
+                        "duration": "120",
+                        "height": "720"
+                    }
+                },
+                "index_id": {
+                    "type": "string"
+                },
+                "page_limit": {
+                    "description": "Size of the page",
+                    "type": "integer",
+                    "default": 10,
+                    "maximum": 50,
+                    "minimum": 1
+                },
+                "query": {
+                    "description": "Combination of queries with using operators\n\nQuery: `Block` | `Unit`\n- Block: { \"$and\": [`Query`] } | { \"$or\": [`Query`] } | { \"$not\": `Query` } | { \"$strict_or\": [`Query`] }\n  - \"$not\" can be valid only when other queries are in the same block\n  - \"$strict_or\" is a special operator which shows the results only when it follows the order of queries\n- Unit : { \"text\": string, \"option\": \"conversation\" | \"text_in_video\" | \"visual\", \"conversation_option\": \"transcription\" | \"semantic\" }\n  - \"text\" and \"option\" are required\n  - \"conversation_option\" is required when \"option\" is \"conversation\". Default is \"semantic\"\n\ne.g.\n```json\n{ \"text\": \"A man holding an iPad\", \"option\": \"visual\" }\n```\ne.g.\n```json\n{\n  \"$and\": [\n    { \"text\": \"A man holding an iPad\", \"option\": \"visual\"},\n    { \"text\": \"iPad\", \"option\": \"text_in_video\"},\n    { \"$not\": { \"text\": \"Samsung galuxy\", \"option\": \"conversation\" }\n  ]\n}\n```",
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "example": {
+                        "option": "visual",
+                        "text": "A man holding an iPad"
+                    }
+                },
+                "response_type": {
+                    "description": "\"video\" type is grouped clips by video",
+                    "type": "string",
+                    "default": "clip",
+                    "enum": [
+                        "video",
+                        "clip"
+                    ]
+                },
+                "sort_option": {
+                    "description": "The way how to sort items inside the response.body\n- score: If 'response_type' is video, videos will be sorted by the max score of clips in each video. If 'response_type' is clip, clips will be sorted by score.\n- hits : This option is only available when 'response_type' is video. Videos will be sorted by number of clips.",
+                    "type": "string",
+                    "default": "score",
+                    "enum": [
+                        "score",
+                        "hits"
+                    ]
+                },
+                "threshold": {
+                    "type": "string",
+                    "default": "low",
+                    "enum": [
+                        "high",
+                        "medium",
+                        "low",
+                        "none"
+                    ]
+                }
+            }
+        },
+        "schema.SearchPool": {
+            "type": "object",
+            "properties": {
+                "index_id": {
+                    "type": "string"
+                },
+                "total_count": {
+                    "type": "integer"
+                },
+                "total_duration": {
+                    "type": "number"
+                }
+            }
+        },
+        "schema.SearchQuery": {
+            "type": "object",
+            "properties": {
+                "$and": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.SearchQuery"
+                    }
+                },
+                "$not": {
+                    "$ref": "#/definitions/schema.SearchQuery"
+                },
+                "$or": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.SearchQuery"
+                    }
+                },
+                "adjacency_threshold": {
+                    "type": "number"
+                },
+                "conversation_option": {
+                    "type": "string",
+                    "enum": [
+                        "transcription",
+                        "semantic"
+                    ]
+                },
+                "option": {
+                    "type": "string",
+                    "enum": [
+                        "conversation",
+                        "text_in_video",
+                        "visual"
+                    ]
+                },
+                "order_strict": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "text": {
+                    "type": "string",
+                    "minLength": 1
+                }
+            }
+        },
+        "schema.SearchResult": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {}
+                },
+                "page_info": {
+                    "$ref": "#/definitions/schema.SearchPageInfo"
+                },
+                "search_pool": {
+                    "$ref": "#/definitions/schema.SearchPool"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "API_KEY": {
+            "type": "apiKey",
+            "name": "x-api-key",
+            "in": "header"
+        }
+    }
+}
