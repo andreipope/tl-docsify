@@ -9,16 +9,33 @@ definitions:
       message:
         type: string
     required:
-    - message
+      - message
     type: object
   schema.ClassifyBulkResponse:
     properties:
       data:
         items:
-          $ref: '#/definitions/schema.ClassifyResponse'
+          $ref: "#/definitions/schema.ClassifyResponse"
         type: array
       page_info:
-        $ref: '#/definitions/schema.ClassifyPageInfo'
+        $ref: "#/definitions/schema.ClassifyPageInfo"
+    type: object
+  schema.ClassifyClip:
+    properties:
+      confidence:
+        type: string
+      end:
+        type: number
+      max_score:
+        type: number
+      option:
+        type: string
+      prompt:
+        type: string
+      start:
+        type: number
+      thumbnail_url:
+        type: string
     type: object
   schema.ClassifyLabel:
     properties:
@@ -27,49 +44,32 @@ definitions:
         type: string
       prompts:
         example:
-        - truck
-        - sedan
-        - suv
-        - convertible
+          - truck
+          - sedan
+          - suv
+          - convertible
         items:
           type: string
         minItems: 1
         type: array
     required:
-    - name
-    - prompts
+      - name
+      - prompts
     type: object
   schema.ClassifyLabelResult:
     properties:
+      clips:
+        items:
+          $ref: "#/definitions/schema.ClassifyClip"
+        type: array
       confidence:
         type: string
       duration:
         type: number
-      matches:
-        items:
-          $ref: '#/definitions/schema.ClassifyModuleMatch'
-        type: array
       name:
         type: string
       score:
         type: number
-    type: object
-  schema.ClassifyModuleMatch:
-    properties:
-      end:
-        type: number
-      option:
-        type: string
-      prompt:
-        type: string
-      segment_confidence:
-        type: string
-      segment_score:
-        type: number
-      start:
-        type: number
-      thumbnail_url:
-        type: string
     type: object
   schema.ClassifyPageInfo:
     properties:
@@ -88,7 +88,7 @@ definitions:
     properties:
       labels:
         items:
-          $ref: '#/definitions/schema.ClassifyLabelResult'
+          $ref: "#/definitions/schema.ClassifyLabelResult"
         type: array
       video_id:
         type: string
@@ -98,26 +98,25 @@ definitions:
       conversation_option:
         default: semantic
         enum:
-        - semantic
-        - transcription
+          - semantic
+          - transcription
         type: string
-      include_matches:
+      include_clips:
         default: false
-        description: If true, the response includes detailed information about matches
         type: boolean
       index_id:
         type: string
       labels:
         items:
-          $ref: '#/definitions/schema.ClassifyLabel'
+          $ref: "#/definitions/schema.ClassifyLabel"
         minItems: 1
         type: array
       options:
         items:
           enum:
-          - conversation
-          - text_in_video
-          - visual
+            - conversation
+            - text_in_video
+            - visual
           type: string
         minItems: 1
         type: array
@@ -129,10 +128,10 @@ definitions:
       threshold:
         default: low
         enum:
-        - high
-        - medium
-        - low
-        - none
+          - high
+          - medium
+          - low
+          - none
         type: string
       video_ids:
         items:
@@ -140,49 +139,49 @@ definitions:
         minItems: 1
         type: array
     required:
-    - index_id
-    - labels
-    - options
+      - index_id
+      - labels
+      - options
     type: object
   schema.CreateClassifyRequest:
     properties:
       conversation_option:
         default: semantic
         enum:
-        - semantic
-        - transcription
+          - semantic
+          - transcription
         type: string
-      include_matches:
+      include_clips:
         default: false
         type: boolean
       labels:
         items:
-          $ref: '#/definitions/schema.ClassifyLabel'
+          $ref: "#/definitions/schema.ClassifyLabel"
         minItems: 1
         type: array
       options:
         items:
           enum:
-          - visual
-          - conversation
-          - text_in_video
+            - visual
+            - conversation
+            - text_in_video
           type: string
         minItems: 1
         type: array
       threshold:
         default: low
         enum:
-        - high
-        - medium
-        - low
-        - none
+          - high
+          - medium
+          - low
+          - none
         type: string
       video_id:
         type: string
     required:
-    - labels
-    - options
-    - video_id
+      - labels
+      - options
+      - video_id
     type: object
   schema.SearchPageInfo:
     properties:
@@ -211,6 +210,13 @@ definitions:
           duration: "120"
           height: "720"
         type: object
+      group_by:
+        default: clip
+        description: '"video" type is grouped clips by video'
+        enum:
+          - video
+          - clip
+        type: string
       index_id:
         type: string
       page_limit:
@@ -251,34 +257,27 @@ definitions:
           option: visual
           text: A man holding an iPad
         type: object
-      response_type:
-        default: clip
-        description: '"video" type is grouped clips by video'
-        enum:
-        - video
-        - clip
-        type: string
       sort_option:
         default: score
         description: |-
           The way how to sort items inside the response.body
-          - score: If 'response_type' is video, videos will be sorted by the max score of clips in each video. If 'response_type' is clip, clips will be sorted by score.
-          - hits : This option is only available when 'response_type' is video. Videos will be sorted by number of clips.
+          - score: If 'group_by' is video, videos will be sorted by the max score of clips in each video. If 'response_type' is clip, clips will be sorted by score.
+          - clip_count : This option is only available when 'response_type' is video. Videos will be sorted by number of clips.
         enum:
-        - score
-        - hits
+          - score
+          - clip_count
         type: string
       threshold:
         default: low
         enum:
-        - high
-        - medium
-        - low
-        - none
+          - high
+          - medium
+          - low
+          - none
         type: string
     required:
-    - index_id
-    - query
+      - index_id
+      - query
     type: object
   schema.SearchPool:
     properties:
@@ -293,26 +292,26 @@ definitions:
     properties:
       $and:
         items:
-          $ref: '#/definitions/schema.SearchQuery'
+          $ref: "#/definitions/schema.SearchQuery"
         type: array
       $not:
-        $ref: '#/definitions/schema.SearchQuery'
+        $ref: "#/definitions/schema.SearchQuery"
       $or:
         items:
-          $ref: '#/definitions/schema.SearchQuery'
+          $ref: "#/definitions/schema.SearchQuery"
         type: array
       adjacency_threshold:
         type: number
       conversation_option:
         enum:
-        - transcription
-        - semantic
+          - transcription
+          - semantic
         type: string
       option:
         enum:
-        - conversation
-        - text_in_video
-        - visual
+          - conversation
+          - text_in_video
+          - visual
         type: string
       order_strict:
         default: false
@@ -327,9 +326,9 @@ definitions:
         items: {}
         type: array
       page_info:
-        $ref: '#/definitions/schema.SearchPageInfo'
+        $ref: "#/definitions/schema.SearchPageInfo"
       search_pool:
-        $ref: '#/definitions/schema.SearchPool'
+        $ref: "#/definitions/schema.SearchPool"
     type: object
 host: localhost:8080
 info:
@@ -341,145 +340,145 @@ paths:
   /classify:
     post:
       consumes:
-      - application/json
+        - application/json
       parameters:
-      - description: Classify body parameters
-        in: body
-        name: payload
-        required: true
-        schema:
-          $ref: '#/definitions/schema.CreateClassifyRequest'
+        - description: Classify body parameters
+          in: body
+          name: payload
+          required: true
+          schema:
+            $ref: "#/definitions/schema.CreateClassifyRequest"
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schema.ClassifyResponse'
+            $ref: "#/definitions/schema.ClassifyResponse"
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/httpError.Error'
+            $ref: "#/definitions/httpError.Error"
       security:
-      - API_KEY: []
+        - API_KEY: []
       summary: Create classify
       tags:
-      - Classify
+        - Classify
   /classify/{page_token}:
     get:
       consumes:
-      - application/json
+        - application/json
       parameters:
-      - description: Page token from previous classify bulk result
-        in: path
-        name: page_token
-        required: true
-        type: string
+        - description: Page token from previous classify bulk result
+          in: path
+          name: page_token
+          required: true
+          type: string
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schema.ClassifyBulkResponse'
+            $ref: "#/definitions/schema.ClassifyBulkResponse"
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/httpError.Error'
+            $ref: "#/definitions/httpError.Error"
       security:
-      - API_KEY: []
+        - API_KEY: []
       summary: Create classify bulk page
       tags:
-      - Classify
+        - Classify
   /classify/bulk:
     post:
       consumes:
-      - application/json
+        - application/json
       parameters:
-      - description: Classify bulk body parameters
-        in: body
-        name: payload
-        required: true
-        schema:
-          $ref: '#/definitions/schema.CreateClassifyBulkRequest'
+        - description: Classify bulk body parameters
+          in: body
+          name: payload
+          required: true
+          schema:
+            $ref: "#/definitions/schema.CreateClassifyBulkRequest"
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schema.ClassifyBulkResponse'
+            $ref: "#/definitions/schema.ClassifyBulkResponse"
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/httpError.Error'
+            $ref: "#/definitions/httpError.Error"
       security:
-      - API_KEY: []
+        - API_KEY: []
       summary: Create classify bulk
       tags:
-      - Classify
+        - Classify
   /search:
     post:
       consumes:
-      - application/json
+        - application/json
       parameters:
-      - description: Search body parameters
-        in: body
-        name: payload
-        required: true
-        schema:
-          $ref: '#/definitions/schema.SearchParams'
-      - description: Search query interface
-        in: body
-        name: query
-        schema:
-          $ref: '#/definitions/schema.SearchQuery'
+        - description: Search body parameters
+          in: body
+          name: payload
+          required: true
+          schema:
+            $ref: "#/definitions/schema.SearchParams"
+        - description: Search query interface
+          in: body
+          name: query
+          schema:
+            $ref: "#/definitions/schema.SearchQuery"
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schema.SearchResult'
+            $ref: "#/definitions/schema.SearchResult"
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/httpError.Error'
+            $ref: "#/definitions/httpError.Error"
       security:
-      - API_KEY: []
+        - API_KEY: []
       summary: Create search
       tags:
-      - Search
+        - Search
   /search/{page_token}:
     get:
       consumes:
-      - application/json
+        - application/json
       parameters:
-      - description: Page token from previous search result
-        in: path
-        name: page_token
-        required: true
-        type: string
+        - description: Page token from previous search result
+          in: path
+          name: page_token
+          required: true
+          type: string
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schema.SearchResult'
+            $ref: "#/definitions/schema.SearchResult"
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/httpError.Error'
+            $ref: "#/definitions/httpError.Error"
         "403":
           description: Forbidden
           schema:
-            $ref: '#/definitions/httpError.Error'
+            $ref: "#/definitions/httpError.Error"
       security:
-      - API_KEY: []
+        - API_KEY: []
       summary: Get search page
       tags:
-      - Search
+        - Search
 securityDefinitions:
   API_KEY:
     in: header
