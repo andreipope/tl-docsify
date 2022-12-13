@@ -26,12 +26,12 @@ definitions:
         type: string
       end:
         type: number
-      max_score:
-        type: number
       option:
         type: string
       prompt:
         type: string
+      score:
+        type: number
       start:
         type: number
       thumbnail_url:
@@ -66,10 +66,10 @@ definitions:
         type: string
       duration:
         type: number
+      max_score:
+        type: number
       name:
         type: string
-      score:
-        type: number
     type: object
   schema.ClassifyPageInfo:
     properties:
