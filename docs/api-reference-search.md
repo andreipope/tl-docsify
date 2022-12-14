@@ -8,15 +8,16 @@ NOTE: When you use pagination, you will not be charged for retrieving subsequent
 
 ## Make a Search Request
 
-### POST `/search`
+Method: POST `/search`
 
 Use this endpoint to search for relevant matches in an index. This endpoint returns the first page of results. To retrieve the subsequent pages, you must call the POST method of the `/search/{page-id}` endpoint, passing it the unique identifier of the page you want to retrieve.
 
 NOTE: When you use pagination, you will not be charged for retrieving subsequent pages of results.
 
-#### Body Parameters 
+### Body Parameters 
 
-- Name: `filter` 
+#### Filter 
+
 - Type: `object`
 - Default: N/A
 - Description:
@@ -29,9 +30,8 @@ For numeric fields, the filter parameter returns the results that match based on
 
 You can also filter by any of the custom fields specified by invoking the PUT method of the /indexes/{index-id}/videos/{video-id} endpoint. The following example returns only the videos for which a custom field named needsReview of type boolean is set to true: "needs_review": true.
 
----
+#### group_by
 
-- Name: `group_by`
 - Type: `string`
 - Possible values: `video`, `clip`
 - Default: `clip`
