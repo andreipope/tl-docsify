@@ -31,6 +31,15 @@ For numeric fields, the filter parameter returns the results that match based on
 
 You can also filter by any of the custom fields specified by invoking the PUT method of the /indexes/{index-id}/videos/{video-id} endpoint. The following example returns only the videos for which a custom field named needsReview of type boolean is set to true: "needs_review": true.
 
+#### index_id
+
+- Type: `string`
+- Default: N/A
+- Status: stable
+- Description:
+
+The unique identifier of the index to search.
+
 #### group_by
 
 - Type: `string`
@@ -54,10 +63,38 @@ Use the `sort_option` parameter to specify how the API service should sort the r
 - `score`: When the `group_by` parameter is set to `video`, the results are sorted by the maximum score of the clips in each video.
 - `clip_count`: You can use this value when the `group_by` parameter is set to `video`. The API service will return the results sorted by the number of matching fragments in each video.  
 
+#### page_limit
+
+- Type: `number`
+- Default: `10`
+- Max: `50`
+- Status: stable
+- Description:
+
+The number of items to return on each page.
+
 ---
 
+#### query
 
+- Type: `object`
+- Default: N/A
+- Status: experimental
+- Description:
 
 Notes:
 
 Search operator $not is valid only when wrapped with $and operator and has more than one query in a same block.
+
+
+#### threshold
+
+- Type: string
+- Possible values: `high`, `medium`, `low`, `none`
+- Default: `low`
+- Status: Experimental
+- Description:
+
+This parameter represents the miniumum similarity score between your search terms and the matching video fragments. 
+
+
