@@ -21,6 +21,8 @@ NOTE: When you use pagination, you will not be charged for retrieving subsequent
 - Default: N/A
 - Description:
 
+Use this parameter to filter your search results by metadata.
+
 For string fields, the filter parameter returns only the results that equal the value you specify. The following example filters on the videos whose title is "Animal Encounters part 1": "title": "Animal Encounters part 1".
 
 For numeric fields, the filter parameter returns the results that match based on the arithmetic comparison. The following example filters on the videos whose height is greater than or equal to 400 and less than or equal to 500: "height": { "gte": 400, "lte": 500 }.
@@ -33,6 +35,8 @@ You can also filter by any of the custom fields specified by invoking the PUT me
 - Type: `string`
 - Possible values: `video`, `clip`
 - Default: `clip`
+- Description:
+
 
 
 
