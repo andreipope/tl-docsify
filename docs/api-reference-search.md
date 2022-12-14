@@ -20,6 +20,7 @@ NOTE: When you use pagination, you will not be charged for retrieving subsequent
 
 - Type: `object`
 - Default: N/A
+- Status: stable
 - Description:
 
 Use this parameter to filter your search results by metadata.
@@ -35,12 +36,28 @@ You can also filter by any of the custom fields specified by invoking the PUT me
 - Type: `string`
 - Possible values: `video`, `clip`
 - Default: `clip`
+- Status: experimental
 - Description:
 
+TODO
 
+#### sort_option
 
+- Type: `string`
+- Possible values: `score`, `clip_count`
+- Default: `score`
+- Status: experimental
+- Description:
 
+Use the `sort_option` parameter to specify how the API service should sort the results. The following options are available:
+
+- `score`: When the `group_by` parameter is set to `video`, the results are sorted by the maximum score of the clips in each video.
+- `clip_count`: You can use this value when the `group_by` parameter is set to `video`. The API service will return the results sorted by the number of matching fragments in each video.  
 
 ---
+
+
+
+Notes:
 
 Search operator $not is valid only when wrapped with $and operator and has more than one query in a same block.
