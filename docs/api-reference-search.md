@@ -88,7 +88,55 @@ This parameter represents the miniumum similarity score between your search term
 
 TODO
 
-An object representing your search query. It is represented as an array of object
+Your search query, represented as an array of key-value pairs, where key name is the operator that you want to use.
+
+The operator can take one of the following values:
+
+- `$and`: Represents the logical `AND` operator. The API service will return the video fragments for which all the queries match.
+- `$or`:Represents the logical `AND` operator. The API service will return the video fragments for which all the queries match.
+- `$not`: TODO
+- `$strict_or`: TODO
+
+The value is an object that has the following fields:
+
+- `text` - A string containing your search query
+- `option` - See `query.option`. Not sure where to place this. TODO
+
+
+```
+      query:
+        additionalProperties:
+          type: string
+        description: |-
+          Combination of queries with using operators
+
+          Query: `Block` | `Unit`
+          - Block: { "$and": [`Query`] } | { "$or": [`Query`] } | { "$not": `Query` } | { "$strict_or": [`Query`] }
+            - "$not" can be valid only when other queries are in the same block
+            - "$strict_or" is a special operator which shows the results only when it follows the order of queries
+          - Unit : { "text": string, "option": "conversation" | "text_in_video" | "visual", "conversation_option": "transcription" | "semantic" }
+            - "text" and "option" are required
+            - "conversation_option" is required when "option" is "conversation". Default is "semantic"
+
+          e.g.
+          ```json
+          { "text": "A man holding an iPad", "option": "visual" }
+          ```
+          e.g.
+          ```json
+          {
+            "$and": [
+              { "text": "A man holding an iPad", "option": "visual"},
+              { "text": "iPad", "option": "text_in_video"},
+              { "$not": { "text": "Samsung galuxy", "option": "conversation" }
+            ]
+          }
+          ```
+        example:
+          option: visual
+          text: A man holding an iPad
+        type: object
+```
 
 Notes: 
 - The API supports full natural language-based search. The following examples are valid queries: "birds flying near a castle", "sun shining on water", "chickens on the road", "an officer holding a child's hand.", "crowd cheering in the stadium."
