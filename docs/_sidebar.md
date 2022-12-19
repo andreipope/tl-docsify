@@ -1,3 +1,3 @@
 * [Home](/)
-* [Migration Guide](migration_guide.md)
+* [Versioning](versioning.md)
 * [API Reference > Search](api-reference-search.md)
