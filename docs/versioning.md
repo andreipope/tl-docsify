@@ -4,7 +4,7 @@ The Twelve Labs Video Understanding API is versioned. You specify the version by
 
 ## Changes by Version
 
-The introduction of new features and improvements in the Twelve Labs Video Understanding API have required changes to some of he endpoints. This sections below lists all new features and improvements to the API service, in chronological order.
+The introduction of new features and improvements in the Twelve Labs Video Understanding API have required changes to some of the endpoints. The sections below list all new features and improvements to the API service, in chronological order.
 
 ## v1.1
 
