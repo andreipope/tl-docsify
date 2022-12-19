@@ -1,10 +1,15 @@
 # Versioning
 
-The Twelve Labs Video Understanding API is versioned. You specify the version by including it into the URL: `https://https://api.twelvelabs.io./{version}/{resource}/{path_parameters}?{query_parameters}`.
+The Twelve Labs Video Understanding API is versioned. You specify the version by including it into the URL: `https://https://api.twelvelabs.io./{version}/{resource}/{path_parameters}?{query_parameters}`. For example, to invoke the `/engines` endpoint in version `1.1`, you must use the following URL: `https://api.twelvelabs.io/v1.1/engines`.
 
-The following example URL
 ## Changes by Version
+
+The introduction of new features and improvements in the Twelve Labs Video Understanding API have required changes to some of he endpoints. This sections below lists all new features and improvements to the API service, in chronological order.
+
 ## v1.1
+
+If you have used version 1.0 of the API, please refer to the following sections for important information regarding the changes.
+
 ### New Features
 
 The version 1.1 of the Twelve Labs Video Understanding API introduces the following new features:
